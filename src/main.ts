@@ -2,11 +2,25 @@ import * as core from "@actions/core";
 import * as exec from "@actions/exec";
 import * as fs from "fs";
 
+/**
+ * Remove DNS settings from WireGuard config to prevent wg-quick from hanging.
+ * GitHub Actions runners use resolvconf which can cause hangs when DNS is set.
+ */
+function removeDnsConfig(configContent: string): string {
+  const dnsMatch = configContent.match(/^DNS\s*=.*/m);
+  if (dnsMatch) {
+    core.info("Removing DNS setting to prevent resolvconf hang...");
+    return configContent.replace(/^DNS\s*=.*\n?/gm, "");
+  }
+  return configContent;
+}
+
 async function run(): Promise<void> {
   try {
     // Get inputs
     const wgConfig = core.getInput("wg-config-file", { required: true });
     const allowedIps = core.getInput("allowed-ips");
+    const keepDns = core.getInput("keep-dns") === "true";
 
     // Install WireGuard
     core.info("Installing WireGuard...");
@@ -27,6 +41,11 @@ async function run(): Promise<void> {
     if (allowedIps) {
       core.info(`Overriding AllowedIPs with: ${allowedIps}`);
       configContent = configContent.replace(/^AllowedIPs\s*=.*/m, `AllowedIPs = ${allowedIps}`);
+    }
+
+    // Remove DNS setting by default to prevent wg-quick from hanging on resolvconf
+    if (!keepDns) {
+      configContent = removeDnsConfig(configContent);
     }
 
     // Create config directory and write config file

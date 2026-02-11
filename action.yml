@@ -12,6 +12,10 @@ inputs:
   allowed-ips:
     description: 'Override AllowedIPs in the WireGuard config (e.g., "10.0.0.0/8, 192.168.1.0/24")'
     required: false
+  keep-dns:
+    description: 'Keep DNS settings in the WireGuard config (default: false). DNS is removed by default to prevent slow start with resolvconf.'
+    required: false
+    default: 'false'
 
 runs:
   using: 'node24'

@@ -2,7 +2,7 @@
   "name": "wireguard-action",
   "version": "1.0.0",
   "description": "GitHub Action to set up a WireGuard VPN connection",
-  "main": "dist/main.js",
+  "main": "dist/index.js",
   "packageManager": "pnpm@10.10.0",
   "scripts": {
     "build": "tsc && ncc build lib/main.js -o dist && ncc build lib/cleanup.js -o dist/cleanup",
