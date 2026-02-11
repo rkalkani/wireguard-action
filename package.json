@@ -1,0 +1,46 @@
+{
+  "name": "wireguard-action",
+  "version": "1.0.0",
+  "description": "GitHub Action to set up a WireGuard VPN connection",
+  "main": "dist/main.js",
+  "packageManager": "pnpm@10.10.0",
+  "scripts": {
+    "build": "tsc && ncc build lib/main.js -o dist && ncc build lib/cleanup.js -o dist/cleanup",
+    "prepare": "pnpm build",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "format:check": "prettier --check src/",
+    "check": "pnpm format:check && pnpm lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rkalkani/wireguard-action.git"
+  },
+  "keywords": [
+    "github-action",
+    "wireguard",
+    "vpn"
+  ],
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=10.10.0"
+  },
+  "engineStrict": true,
+  "author": "rkalkani",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/exec": "^1.1.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@types/node": "^22.0.0",
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.0.0",
+    "prettier": "^3.2.0",
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^8.0.0"
+  }
+}

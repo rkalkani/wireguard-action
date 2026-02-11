@@ -1,0 +1,20 @@
+name: 'WireGuard Action'
+description: 'Set up a WireGuard VPN connection in your GitHub Actions workflow with automatic cleanup'
+author: 'rkalkani'
+branding:
+  icon: 'shield'
+  color: 'green'
+
+inputs:
+  wg-config-file:
+    description: 'WireGuard configuration file content (base64 encoded or plain text)'
+    required: true
+  allowed-ips:
+    description: 'Override AllowedIPs in the WireGuard config (e.g., "10.0.0.0/8, 192.168.1.0/24")'
+    required: false
+
+runs:
+  using: 'node24'
+  main: 'dist/main.js'
+  post: 'dist/cleanup/index.js'
+  post-if: 'always()'
