@@ -15,6 +15,6 @@ inputs:
 
 runs:
   using: 'node24'
-  main: 'dist/main.js'
+  main: 'dist/index.js'
   post: 'dist/cleanup/index.js'
   post-if: 'always()'
